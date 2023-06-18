@@ -58,11 +58,22 @@ const getProducts = async (req, res, next) => {
   try {
     const productsCount = await Product.countDocuments();
 
+    const testProducts = await Product.find();
+
     const apiFeatures = new APIFeatures(Product.find(), req.query).search();
 
     const products = await apiFeatures.query;
 
     let filteredProductsCount = products.length;
+
+    if (products.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Products cannot be fetched ",
+      });
+    }
+
+    console.log(products);
 
     res.status(200).send({
       success: true,
@@ -71,6 +82,7 @@ const getProducts = async (req, res, next) => {
       filteredProductsCount,
     });
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       success: false,
       message: "Products cannot be fetched ",
@@ -78,35 +90,30 @@ const getProducts = async (req, res, next) => {
   }
 };
 
-const getProductsByTag = async(req, res, next) => {
-
+const getProductsByTag = async (req, res, next) => {
   try {
+    const products = await Product.find({ tag: req.query.tag });
 
-    const products = await Product.find({ tag : req.query.tag })
-
-    console.log(products)
+    console.log(products);
 
     if (products.length === 0 || !products) {
       return res.status(404).json({
         success: false,
-        message: "No Product with this Tag was found"
-      })
+        message: "No Product with this Tag was found",
+      });
     }
 
     res.status(200).json({
       success: true,
-      products: products
-    })
-
+      products: products,
+    });
   } catch (err) {
-
     res.status(400).json({
       success: false,
-      message: "Something went wrong with the server"
-    })
-
+      message: "Something went wrong with the server",
+    });
   }
-}
+};
 
 // 3. Get Single Product Details      -                 /api/v1/product/:id
 const getSingleProductDetails = async (req, res, next) => {
@@ -219,8 +226,7 @@ const DeleteProduct = async (req, res, next) => {
 
 // 6. Create a Review / Update an existing Review -     /api/v1/review
 const createProductReview = async (req, res, next) => {
-
-  console.log(req.body)
+  console.log(req.body);
 
   try {
     const { image, comment, productId } = req.body;
@@ -244,7 +250,7 @@ const createProductReview = async (req, res, next) => {
       product.reviews.forEach((review) => {
         if (review.user.toString() === req.user._id.toString()) {
           review.comment = comment;
-          review.image = image
+          review.image = image;
         }
       });
 
@@ -262,8 +268,7 @@ const createProductReview = async (req, res, next) => {
       review,
     });
   } catch (err) {
-
-    console.log(err)
+    console.log(err);
 
     res.status(400).send({
       success: false,
@@ -315,8 +320,6 @@ const uploadImage = async (req, res, next) => {
     });
   }
 };
-
-
 
 module.exports = {
   createNewProduct,

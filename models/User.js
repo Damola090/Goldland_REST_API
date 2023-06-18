@@ -78,7 +78,7 @@ UserSchema.methods.comparePassword = async function(enteredpassword) {
 //Generate jsonwebtoken
 UserSchema.methods.generateAuthToken = async function() {
 
-    const token = jwt.sign({ id : this._id.toString() }, 'mysecretkey', {expiresIn: "1h"})
+    const token = jwt.sign({ id : this._id.toString() }, 'mysecretkey', {expiresIn: "72h"})
 
     await this.save()
 
@@ -88,6 +88,8 @@ UserSchema.methods.generateAuthToken = async function() {
 //login user 
 UserSchema.statics.fetchdata = async (email, password) => {
     const user = await User.findOne({email}).select('+password')
+
+    console.log(user)
 
     if (!user) {
         throw new Error("Invalid UserName or password")

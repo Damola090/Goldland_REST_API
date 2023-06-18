@@ -118,8 +118,11 @@ const getSingleOrder = async (req, res, next) => {
 
 // 3. Get logged in User order -    /api/v1/order/me
 const myOrders = async (req, res, next) => {
+
   try {
     const orders = await Order.find({ user: req.user.id });
+
+    console.log("get my orders", orders)
 
     res.status(200).send({
       success: true,
