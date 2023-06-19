@@ -200,12 +200,7 @@ const storePhoneToken = async (req, res, next) => {
 
   try {
 
-    console.log(req.body)
-    console.log(req.params.id)
-    console.log('before sending query')
     const user = await User.findById({ _id: req.params.id });
-
-    console.log(user)
 
     if (!user || user === null) {
       return res.status(404).json({

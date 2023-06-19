@@ -4,7 +4,19 @@ const Order = require("../models/Order");
 const User = require("../models/User");
 const admin = require("firebase-admin");
 
-const serviceAccount = require("../goldland-mobile-firebase-adminsdk-y5nbk-739ccfcd53.json");
+const serviceAccount = {
+  type: process.env.FIREBASE_TYPE,
+  project_id: process.env.FIREBASE_PROJECT_ID,
+  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+  private_key: process.env.FIREBASE_PRIVATE_KEY,
+  client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  client_id: process.env.FIREBASE_CLIENT_ID,
+  auth_uri: process.env.FIREBASE_AUTH_URI,
+  token_uri: process.env.FIREBASE_TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+  client_x509_cert_url:process.env.FIREBASE_CLIENT_X509_CERT_URL,
+  universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
+};
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -56,7 +68,7 @@ const newOrder = async (req, res, next) => {
         },
       });
 
-          //Admin Token has not been registered yet
+      //Admin Token has not been registered yet
       // await admin.messaging().sendMulticast({
       //   tokens: [GoldlandAdmin.userToken],
       //   notification: {
@@ -65,7 +77,6 @@ const newOrder = async (req, res, next) => {
       //     imageUrl: order.orderItems[0].image,
       //   },
       // });
-
     }
 
     const obj = {
@@ -84,7 +95,6 @@ const newOrder = async (req, res, next) => {
       data: order,
     });
   } catch (err) {
-
     res.status(400).json({
       success: false,
       message: "Order failed to be created",
@@ -118,11 +128,9 @@ const getSingleOrder = async (req, res, next) => {
 
 // 3. Get logged in User order -    /api/v1/order/me
 const myOrders = async (req, res, next) => {
-
   try {
     const orders = await Order.find({ user: req.user.id });
 
-    console.log("get my orders", orders)
 
     res.status(200).send({
       success: true,
@@ -165,8 +173,6 @@ const GetAllOrders = async (req, res, next) => {
 //5 => Process All Orders - ADMIN
 const ProcessOrder = async (req, res, next) => {
 
-  console.log(req.body)
-
   let user;
   try {
     const order = await Order.findById(req.params.id);
@@ -180,7 +186,6 @@ const ProcessOrder = async (req, res, next) => {
       (singleOrder) => singleOrder.status === "Delivered"
     );
 
-    console.log(isDelivered)
     //Throw Error if order Has already been delivered
     if (isDelivered || order.orderStatus.length === 4) {
       throw new Error("This Order has been Delivered");
@@ -309,8 +314,6 @@ const ProcessOrder = async (req, res, next) => {
     //   status: order.orderStatus,
     // });
   } catch (err) {
-
-    console.log(err)
     res.status(404).json({
       success: false,
       message: "Order Processing Failed",

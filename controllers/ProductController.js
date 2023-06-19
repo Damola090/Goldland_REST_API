@@ -73,8 +73,6 @@ const getProducts = async (req, res, next) => {
       });
     }
 
-    console.log(products);
-
     res.status(200).send({
       success: true,
       data: products,
@@ -82,7 +80,6 @@ const getProducts = async (req, res, next) => {
       filteredProductsCount,
     });
   } catch (err) {
-    console.log(err);
     res.status(400).send({
       success: false,
       message: "Products cannot be fetched ",
@@ -93,8 +90,6 @@ const getProducts = async (req, res, next) => {
 const getProductsByTag = async (req, res, next) => {
   try {
     const products = await Product.find({ tag: req.query.tag });
-
-    console.log(products);
 
     if (products.length === 0 || !products) {
       return res.status(404).json({
@@ -226,7 +221,6 @@ const DeleteProduct = async (req, res, next) => {
 
 // 6. Create a Review / Update an existing Review -     /api/v1/review
 const createProductReview = async (req, res, next) => {
-  console.log(req.body);
 
   try {
     const { image, comment, productId } = req.body;
@@ -268,7 +262,6 @@ const createProductReview = async (req, res, next) => {
       review,
     });
   } catch (err) {
-    console.log(err);
 
     res.status(400).send({
       success: false,
@@ -288,8 +281,6 @@ const uploadImage = async (req, res, next) => {
   try {
     let images = [];
 
-    console.log(req.files);
-
     req.files.forEach((singleImage) => {
       images.push(singleImage.path);
     });
@@ -301,7 +292,6 @@ const uploadImage = async (req, res, next) => {
         folder: "Goldland",
       });
 
-      console.log(result);
 
       cloudinaryResponse.push({
         public_id: result.public_id,

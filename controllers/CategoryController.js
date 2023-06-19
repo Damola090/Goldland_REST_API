@@ -135,7 +135,6 @@ const updateCategory = async (req, res, next) => {
 
     const { subCategory } = req.body;
 
-    console.log(subCategory);
 
     if (!catId || !subCategory) {
       return res.status(400).json({
@@ -153,8 +152,6 @@ const updateCategory = async (req, res, next) => {
         useFindAndModify: false,
       }
     );
-
-    console.log(category);
 
     if (!category) {
       return res.status(400).json({

@@ -89,8 +89,6 @@ UserSchema.methods.generateAuthToken = async function() {
 UserSchema.statics.fetchdata = async (email, password) => {
     const user = await User.findOne({email}).select('+password')
 
-    console.log(user)
-
     if (!user) {
         throw new Error("Invalid UserName or password")
     }
