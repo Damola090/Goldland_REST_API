@@ -14,14 +14,13 @@ const {
     uploadImage
 } = require('../controllers/ProductController');
 
-const { AuthMiddleware } = require('../middleware/AuthMiddleware');
+const { AuthMiddleware, AuthorizeRoles } = require('../middleware/AuthMiddleware');
 
 router.route('/get-all-products').get(getProducts);
-// router.route('/get-all-products').get(AuthMiddleware, getProducts);
-router.route('/get-products-tag').get(AuthMiddleware, getProductsByTag);
-router.route('/get-single-product/:id').get(AuthMiddleware, getSingleProductDetails);
+router.route('/get-products-tag').get(getProductsByTag);
+router.route('/get-single-product/:id').get(getSingleProductDetails);
 
-router.route('/admin/create-new-product').post(AuthMiddleware, createNewProduct);
+router.route('/admin/create-new-product').post(AuthMiddleware, AuthorizeRoles("Admin"), createNewProduct);
 router.route('/admin/get-single-product/:id')
     .put(AuthMiddleware, updateProduct)
     .delete(AuthMiddleware, DeleteProduct)
