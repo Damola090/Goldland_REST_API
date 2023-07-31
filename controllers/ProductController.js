@@ -24,16 +24,6 @@ const createNewProduct = async (req, res, next) => {
 
     const newProduct = await Product.create(req.body);
 
-    if (newProduct) {
-      const Productid = {
-        product: newProduct._id,
-      };
-
-      selectedCategory.productList.push(Productid);
-
-      await selectedCategory.save();
-    }
-
     if (!newProduct) {
       return res.status(400).json({
         success: false,
