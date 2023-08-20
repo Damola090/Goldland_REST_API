@@ -78,7 +78,7 @@ UserSchema.methods.comparePassword = async function(enteredpassword) {
 //Generate jsonwebtoken
 UserSchema.methods.generateAuthToken = async function() {
 
-    const token = jwt.sign({ id : this._id.toString() }, 'mysecretkey', {expiresIn: "72h"})
+    const token = jwt.sign({ id : this._id.toString() }, process.env.JWT_SECRET_KEY_, {expiresIn: "72h"})
 
     await this.save()
 

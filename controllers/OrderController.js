@@ -43,7 +43,7 @@ const newOrder = async (req, res, next) => {
       if (!customer || customer === null) {
         return res.status(400).json({
           success: false,
-          message: "The User who plassed the order was not found",
+          message: "The User who placed the order was not found",
         });
       }
 
@@ -296,11 +296,6 @@ const ProcessOrder = async (req, res, next) => {
         });
       }
     }
-
-    // res.status(200).json({
-    //   success: true,
-    //   status: order.orderStatus,
-    // });
   } catch (err) {
     res.status(404).json({
       success: false,

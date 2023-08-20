@@ -20,7 +20,20 @@ const ErrorHandler = require("../Util/ErrorHandler");
 //4. Delete User
 
 const createNewUser = async (req, res, next) => {
+
+  console.log(req.body)
+
   try {
+
+    const userExist = await User.findOne({ email: req.body.email})
+
+    if (userExist !== null) {
+      return res.status(400).json({
+        success: false,
+        message: "This User Already exist"
+      })
+    }
+
     const user = await User.create(req.body);
 
     const token = await user.generateAuthToken();
