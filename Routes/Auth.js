@@ -9,7 +9,8 @@ const {
     UpdatePassword,
     getAllUsers,
     getSingleUser,
-    storePhoneToken
+    storePhoneToken,
+    deleteUserAccount
 } = require('../controllers/AuthController');
 
 const { AuthMiddleware, AuthorizeRoles } = require('../middleware/AuthMiddleware');
@@ -20,6 +21,7 @@ router.route('/get-my-profile').get(AuthMiddleware, getUserProfile); // get logg
 router.route('/logout-user').get(AuthMiddleware, logOutUser); // logout user
 router.route('/update-password').post(AuthMiddleware, UpdatePassword); // update user password
 router.route('/fetch-fcm-token/:id').post(storePhoneToken);
+router.route('/delete-my-account/:id').post(AuthMiddleware, deleteUserAccount);
 
 router.route('/admin/get-all-users').get(AuthMiddleware, AuthorizeRoles('Admin'), getAllUsers);
 router.route('/admin/get-single-user/:id').get(AuthMiddleware, AuthorizeRoles('Admin'), getSingleUser);

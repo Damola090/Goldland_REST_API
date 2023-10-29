@@ -245,6 +245,36 @@ const storePhoneToken = async (req, res, next) => {
   }
 };
 
+const deleteUserAccount = async (req, res, next) => {
+
+  try {
+
+    const user = await User.findById({ _id : req.params.id })
+
+    if (!user || user === null) {
+        return res.status(400).json({
+          success: false,
+          message: "Failed to Fetch User To be Deleted"
+        })
+    }
+
+    await User.deleteOne({ _id: req.params.id });
+
+    res.status(200).json({
+      success: true,
+      message: "User Has been Deleted Successfully"
+    })
+
+  } catch (err) {
+
+    res.status(400).json({
+      success: false,
+      message: "User Failed To be Deleted"
+    })
+    
+  }
+}
+
 module.exports = {
   createNewUser,
   loginUser,
@@ -254,4 +284,5 @@ module.exports = {
   getAllUsers,
   getSingleUser,
   storePhoneToken,
+  deleteUserAccount
 };
