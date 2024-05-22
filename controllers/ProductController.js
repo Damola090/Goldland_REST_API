@@ -211,7 +211,6 @@ const DeleteProduct = async (req, res, next) => {
 
 // 6. Create a Review / Update an existing Review -     /api/v1/review
 const createProductReview = async (req, res, next) => {
-
   try {
     const { image, comment, productId } = req.body;
 
@@ -252,7 +251,6 @@ const createProductReview = async (req, res, next) => {
       review,
     });
   } catch (err) {
-
     res.status(400).send({
       success: false,
       message: "Review Failed to be updated",
@@ -281,7 +279,6 @@ const uploadImage = async (req, res, next) => {
       const result = await cloudinary.uploader.upload(images[i], {
         folder: "Goldland",
       });
-
 
       cloudinaryResponse.push({
         public_id: result.public_id,
