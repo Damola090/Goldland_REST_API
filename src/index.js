@@ -7,6 +7,10 @@ const connectDatabase = require('../Database/Database');
 
 const PORT = process.env.PORT || 3000;
 
+console.log(process.env.CLOUDINARY_CLOUD_NAME, "test")
+console.log(process.env.CLOUDINARY_API_KEY, "test")
+console.log(process.env.CLOUDINARY_API_SECRET, "test")
+
 connectDatabase();
 
 cloudinary.config({

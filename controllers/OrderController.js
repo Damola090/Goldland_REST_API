@@ -4,11 +4,11 @@ const Order = require("../models/Order");
 const User = require("../models/User");
 const admin = require("firebase-admin");
 
-const serviceAccount = require('../goldland-mobile-firebase-adminsdk-y5nbk-739ccfcd53.json');
+// const serviceAccount = require('../goldland-mobile-firebase-adminsdk-y5nbk-739ccfcd53.json');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 // 1. Create A New Order       -    /api/v1/order/new
 const newOrder = async (req, res, next) => {
@@ -47,14 +47,14 @@ const newOrder = async (req, res, next) => {
         });
       }
 
-      await admin.messaging().sendMulticast({
-        tokens: [customer.userToken],
-        notification: {
-          title: "Payment Has been Confirmed",
-          body: "Your Order is being processed",
-          imageUrl: order.orderItems[0].image,
-        },
-      });
+      // await admin.messaging().sendMulticast({
+      //   tokens: [customer.userToken],
+      //   notification: {
+      //     title: "Payment Has been Confirmed",
+      //     body: "Your Order is being processed",
+      //     imageUrl: order.orderItems[0].image,
+      //   },
+      // });
 
       //Admin Token has not been registered yet
       // await admin.messaging().sendMulticast({
@@ -203,14 +203,14 @@ const ProcessOrder = async (req, res, next) => {
 
         await order.save();
 
-        await admin.messaging().sendMulticast({
-          tokens: [user.userToken],
-          notification: {
-            title: "Payment Has been Confirmed",
-            body: "Your Order is being processed",
-            imageUrl: order.orderItems[0].image,
-          },
-        });
+        // await admin.messaging().sendMulticast({
+        //   tokens: [user.userToken],
+        //   notification: {
+        //     title: "Payment Has been Confirmed",
+        //     body: "Your Order is being processed",
+        //     imageUrl: order.orderItems[0].image,
+        //   },
+        // });
 
         return res.status(200).json({
           success: true,
@@ -241,14 +241,14 @@ const ProcessOrder = async (req, res, next) => {
 
         await order.save();
 
-        await admin.messaging().sendMulticast({
-          tokens: [user.userToken],
-          notification: {
-            title: obj.title,
-            body: obj.description,
-            imageUrl: order.orderItems[0].image,
-          },
-        });
+        // await admin.messaging().sendMulticast({
+        //   tokens: [user.userToken],
+        //   notification: {
+        //     title: obj.title,
+        //     body: obj.description,
+        //     imageUrl: order.orderItems[0].image,
+        //   },
+        // });
 
         return res.status(200).json({
           success: true,
@@ -281,14 +281,14 @@ const ProcessOrder = async (req, res, next) => {
 
         await order.save();
 
-        await admin.messaging().sendMulticast({
-          tokens: [user.userToken],
-          notification: {
-            title: obj.title,
-            body: obj.description,
-            imageUrl: order.orderItems[0].image,
-          },
-        });
+        // await admin.messaging().sendMulticast({
+        //   tokens: [user.userToken],
+        //   notification: {
+        //     title: obj.title,
+        //     body: obj.description,
+        //     imageUrl: order.orderItems[0].image,
+        //   },
+        // });
 
         return res.status(200).json({
           success: true,
